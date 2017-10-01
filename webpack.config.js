@@ -9,6 +9,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = {
     entry: {
+        vendors: ['vue', 'vuex', 'vue-router'],
         styles: './src/assets/index.js',
         index: './src/index.js',
     },
@@ -68,9 +69,9 @@ var config = {
             'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
             'PRODUCTION': JSON.stringify(NODE_ENV!=='development'),
         }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: ['commons', 'vendors']
-        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: ['commons', 'vendors']
+        }),
         new ExtractTextPlugin("css/styles.css"),
         new HtmlWebpackPlugin({
             minify: {
@@ -80,7 +81,7 @@ var config = {
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true
             },
-            chunks: ['index', 'styles'],
+            chunks: ['index', 'vendors', 'styles'],
             // excludeChunks: ['']
             template: 'index.ejs',
             filename: `../index.ejs`,

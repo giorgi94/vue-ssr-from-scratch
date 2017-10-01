@@ -7,6 +7,9 @@ Vue.use(VueRouter)
 
 import router from './router';
 
+import axios from 'axios';
+
+Vue.prototype.$http = axios;
 
 
 var app = new Vue({
