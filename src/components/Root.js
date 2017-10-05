@@ -13,6 +13,9 @@ export default {
     },
     methods: {
         sendRequest() {
+
+            console.log('clicked')
+
             this.$http.get('/api').then((res)=>{
                 this.api = res.data
             }).catch((err)=>{

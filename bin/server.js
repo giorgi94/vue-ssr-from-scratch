@@ -35,11 +35,13 @@ else {
 const renderer = require('vue-server-renderer').createRenderer()
 
 
-var { app, router } = require('../src/index.js');
+const createApp = require('../src/app');
 
 
 function getRouter(url) {
     return new Promise((resolve, reject) => {
+        const { app, router } = createApp();
+
         router.push(url)
         router.onReady(() => {
             const matchedComponents = router.getMatchedComponents()
@@ -71,7 +73,7 @@ server.get("/api", (req, res) => {
 
 server.get("*", (req, res) => {
 
-    getRouter(req.url).then(()=>{
+    getRouter(req.url).then((app)=>{
         renderer.renderToString(app, (err, html) => {
             if (err) throw err  
             res.render('index.ejs', {html: html});

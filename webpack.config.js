@@ -10,8 +10,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 var config = {
     entry: {
         vendors: ['vue', 'vuex', 'vue-router'],
-        styles: './src/assets/index.js',
-        index: './src/index.js',
+        index: './src/entry-client.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist/static'),
@@ -81,7 +80,7 @@ var config = {
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true
             },
-            chunks: ['index', 'vendors', 'styles'],
+            chunks: ['index', 'vendors'],
             // excludeChunks: ['']
             template: 'index.ejs',
             filename: `../index.ejs`,

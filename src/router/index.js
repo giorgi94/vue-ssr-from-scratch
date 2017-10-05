@@ -15,7 +15,9 @@ const routes = [
     { path: '/user/:id', name: 'user', component: User },
 ]
 
-export default new VueRouter({
-    mode: 'history',
-    routes
-});
+export function createRouter () {
+    return new VueRouter({
+        mode: 'history',
+        routes
+    });
+}
