@@ -75,7 +75,7 @@ var config = {
         new HtmlWebpackPlugin({
             minify: {
                 collapseWhitespace: true,
-                removeComments: true,
+                removeComments: false,
                 removeRedundantAttributes: true,
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true
@@ -86,7 +86,8 @@ var config = {
             filename: `../index.ejs`,
             context: {
                 title: 'My Vue Projet',
-                body: '<%- html %>', //'<div id="app"></div>',
+                // body: '<%- html %>', 
+                body: '<!--vue-ssr-outlet-->',
             },
             hash:true,
         })

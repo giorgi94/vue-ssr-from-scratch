@@ -1,4 +1,7 @@
 export default {
+    metaInfo: {
+        title: 'My Awesome Vue App',
+    },
     data () {
         return {
             message: 'this is my home page'
