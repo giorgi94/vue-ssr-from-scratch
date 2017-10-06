@@ -12,7 +12,7 @@ import { createRouter } from './router';
 
 
 
-module.exports = function createApp() {
+export function createApp() {
     const router = createRouter();
     const app = new Vue({
         router,

@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 
+const { createRenderer } = require('vue-server-renderer');
+
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const ROOT_DIR = path.join(__dirname, '..');
 
@@ -31,32 +33,7 @@ else {
 }
 
 
-
-const renderer = require('vue-server-renderer').createRenderer()
-
-
-const createApp = require('../src/app');
-
-
-function getRouter(url) {
-    return new Promise((resolve, reject) => {
-        const { app, router } = createApp();
-
-        router.push(url)
-        router.onReady(() => {
-            const matchedComponents = router.getMatchedComponents()
-
-            if (!matchedComponents.length) {
-                reject({ code: 404 });
-            }
-            else {
-                resolve(app);
-            }
-
-        },reject)
-    })
-}
-
+const resolveApp = require('../src/entry-server');
 
 var count = 0
 
@@ -73,7 +50,9 @@ server.get("/api", (req, res) => {
 
 server.get("*", (req, res) => {
 
-    getRouter(req.url).then((app)=>{
+    const renderer = createRenderer();
+
+    resolveApp(req).then((app)=>{
         renderer.renderToString(app, (err, html) => {
             if (err) throw err  
             res.render('index.ejs', {html: html});

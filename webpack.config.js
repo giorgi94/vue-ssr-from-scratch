@@ -9,7 +9,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = {
     entry: {
-        vendors: ['vue', 'vuex', 'vue-router'],
+        vendors: ['babel-polyfill', 'vue', 'vuex', 'vue-router'],
         index: './src/entry-client.js',
     },
     output: {
