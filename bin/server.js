@@ -11,7 +11,7 @@ const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 const server = express();
 
-
+const ejs = require('ejs')
 server.set('view engine', 'ejs')
 server.set('views', path.join(DIST_DIR));
 
@@ -59,7 +59,11 @@ server.get("*", (req, res) => {
     resolveApp(req).then((app)=>{
         renderer.renderToString(app, (err, html) => {
             if (err) throw err  
-            // res.render('index.ejs', {html: html});
+            
+            html = ejs.render(html, {
+                __INITIAL_STATE__: `window.__INITIAL_STATE__ = ${JSON.stringify(app.$store.state)}`
+            })
+
             res.send(html);
         })
     }).catch((err)=>{

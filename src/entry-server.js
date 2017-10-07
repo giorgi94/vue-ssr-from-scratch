@@ -1,4 +1,4 @@
-import { createApp } from './app'
+import { createApp } from './app';
 
 
 
@@ -7,7 +7,8 @@ module.exports = function resolveApp(context) {
     return new Promise((resolve, reject) => {
         const { app, router, store } = createApp();
 
-        router.push(context.url)
+        router.push(context.url);
+
         router.onReady(() => {
             const matchedComponents = router.getMatchedComponents()
 
@@ -20,17 +21,15 @@ module.exports = function resolveApp(context) {
                         return Component.asyncData({
                             store,
                             route: router.currentRoute
-                        })
+                        });
                     }
                 })).then(() => {
-                    console.log('store:',store.state)
-                    console.log('context:',context.state)
-                    context.state = store.state
-                    resolve(app)
+                    context.state = store.state;
+                    resolve(app);
                 }).catch(reject)
             }
 
-        },reject)
+        },reject);
     })
 }
 

@@ -86,8 +86,8 @@ var config = {
             filename: `../index.ejs`,
             context: {
                 title: 'My Vue Projet',
-                // body: '<%- html %>', 
                 body: '<!--vue-ssr-outlet-->',
+                __INITIAL_STATE__: "<script>{{{'<%- __INITIAL_STATE__ %>'}}}</script>",
             },
             hash:true,
         })
