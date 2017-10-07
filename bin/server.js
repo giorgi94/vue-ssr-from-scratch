@@ -50,6 +50,22 @@ server.get("/api", (req, res) => {
 })
 
 
+
+const users = [
+    {id:1, name: 'Jule Ferdinand'},
+    {id:2, name: 'Ramon Desch'},
+    {id:3, name: 'Waldo Artman'},
+    {id:4, name: 'Dalene Stang'},
+]
+
+
+server.get("/api/:id", (req, res) => {
+
+    console.log(`you requested ${req.url}`)
+    res.json(users.find((val)=>val.id==req.params.id));
+})
+
+
 server.get("*", (req, res) => {
 
     let renderer = createRenderer({
@@ -59,6 +75,9 @@ server.get("*", (req, res) => {
     resolveApp(req).then((app)=>{
         renderer.renderToString(app, (err, html) => {
             if (err) throw err  
+
+
+            console.log('server: ',app.$store.state.user)
             
             html = ejs.render(html, {
                 __INITIAL_STATE__: `window.__INITIAL_STATE__ = ${JSON.stringify(app.$store.state)}`
