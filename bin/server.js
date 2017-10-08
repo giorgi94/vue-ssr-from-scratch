@@ -75,9 +75,6 @@ server.get("*", (req, res) => {
     resolveApp(req).then((app)=>{
         renderer.renderToString(app, (err, html) => {
             if (err) throw err  
-
-
-            console.log('server: ',app.$store.state.user)
             
             html = ejs.render(html, {
                 __INITIAL_STATE__: `window.__INITIAL_STATE__ = ${JSON.stringify(app.$store.state)}`

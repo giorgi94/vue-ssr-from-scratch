@@ -12,7 +12,7 @@ export default {
         
     },
     created() {
-        this.sendRequest()
+        // this.sendRequest()
     },
     methods: {
         sendRequest() {

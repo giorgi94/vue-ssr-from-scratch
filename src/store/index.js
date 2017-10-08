@@ -21,8 +21,6 @@ export function createStore() {
                 state.msg = msg;
             },
             setUser(state, user) {
-
-                console.log(user)
                 state.user = user;
             },
         },

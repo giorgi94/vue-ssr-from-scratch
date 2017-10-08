@@ -14,14 +14,11 @@ export default {
             }
         }
     },
-    watch: {
-        '$route.params.id': (id) => {
-            // this.$store.dispatch('fetchUser', id);
-            console.log(this)
-        }
-    },
     created() {
-        
+        this.$store.watch(() => this.$store.state.route, route => {
+            if(this.user.id != route.params.id)
+                this.$store.dispatch('fetchUser', route.params.id);
+        })
     },
     components: {
         
