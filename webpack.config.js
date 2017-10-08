@@ -80,12 +80,13 @@ var config = {
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true
             },
+            // excludeChunks: [''],
             chunks: ['index', 'vendors'],
-            // excludeChunks: ['']
             template: 'index.ejs',
             filename: `../index.ejs`,
             context: {
-                title: 'My Vue Projet',
+                meta: "{{{'<%- meta %>'}}}",
+                title: "{{{'<%- title %>'}}}",
                 body: '<!--vue-ssr-outlet-->',
                 __INITIAL_STATE__: "<script>{{{'<%- __INITIAL_STATE__ %>'}}}</script>",
             },

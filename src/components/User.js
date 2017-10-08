@@ -1,4 +1,13 @@
 export default {
+    metaInfo() {
+        return {
+            title: `User: ${this.user.name}`,
+            meta: [
+                { name: 'description', content: 'my description' },
+                { name: 'title', content: 'my title' }
+            ]
+        }
+    },
     asyncData({store, route}) {
         return store.dispatch('fetchUser', route.params.id)
     },

@@ -17,15 +17,20 @@ module.exports = function resolveApp(context) {
             }
             else {
                 Promise.all(matchedComponents.map(Component => {
-                    if (Component.asyncData) {
+
+                    if(Component.asyncData) {
                         return Component.asyncData({
                             store,
                             route: router.currentRoute
                         });
                     }
+
                 })).then(() => {
+                    
+                    context.meta = app.$meta();
                     context.state = store.state;
-                    resolve(app);
+
+                    resolve({app, context});
                 }).catch(reject)
             }
 

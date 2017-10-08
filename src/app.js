@@ -6,10 +6,24 @@ import VueMeta from 'vue-meta';
 import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 
-Vue.use(Vuex);
-Vue.use(VueMeta);
-Vue.use(VueRouter);
 Vue.prototype.$http = axios;
+
+
+Vue.use(Vuex);
+Vue.use(VueRouter);
+
+Vue.use(VueMeta, {
+    keyName: 'metaInfo',
+    attribute: 'data-vue-meta',
+    ssrAttribute: 'data-vue-meta-server-rendered',
+    tagIDKeyName: 'vmid'
+});
+
+
+
+
+
+
 
 import App from './components/App';
 

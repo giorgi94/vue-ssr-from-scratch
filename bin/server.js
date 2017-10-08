@@ -72,12 +72,18 @@ server.get("*", (req, res) => {
         template: fs.readFileSync(path.join(DIST_DIR, 'index.ejs'), 'utf-8')
     });
 
-    resolveApp(req).then((app)=>{
+    resolveApp(req).then(({ app, context })=>{
         renderer.renderToString(app, (err, html) => {
-            if (err) throw err  
-            
+            if(err) {
+                throw err;
+            } 
+
+            const inject = context.meta.inject()
+
             html = ejs.render(html, {
-                __INITIAL_STATE__: `window.__INITIAL_STATE__ = ${JSON.stringify(app.$store.state)}`
+                meta: inject.meta.text(),
+                title: inject.title.text(),
+                __INITIAL_STATE__: `window.__INITIAL_STATE__ = ${JSON.stringify(context.state)}`
             })
 
             res.send(html);

@@ -1,4 +1,7 @@
 export default {
+    metaInfo: {
+        title: `My Vue Project`,
+    },
     components: {
         
     },
