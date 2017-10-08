@@ -77,18 +77,18 @@ var config = {
                 collapseWhitespace: true,
                 removeComments: false,
                 removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true
+                removeScriptTypeAttributes: false,
+                removeStyleLinkTypeAttributes: false
             },
             // excludeChunks: [''],
             chunks: ['index', 'vendors'],
             template: 'index.ejs',
             filename: `../index.ejs`,
             context: {
-                meta: "{{{'<%- meta %>'}}}",
-                title: "{{{'<%- title %>'}}}",
-                body: '<!--vue-ssr-outlet-->',
-                __INITIAL_STATE__: "<script>{{{'<%- __INITIAL_STATE__ %>'}}}</script>",
+                body: "<%- html %>",
+                meta: "<%- meta %>",
+                title: "<%- title %>",
+                __INITIAL_STATE__: "<script><%- __INITIAL_STATE__ %></script>",
             },
             hash:true,
         })

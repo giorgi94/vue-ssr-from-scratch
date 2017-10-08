@@ -28,6 +28,8 @@ export default {
     },
     template: `<div>
 
+        <h1>Vue application</h1>
+
         <p>{{message}}</p>
 
         <p>test: {{$store.getters.getMsg}}</p>
