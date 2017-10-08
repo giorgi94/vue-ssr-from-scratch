@@ -80,14 +80,11 @@ server.get("*", (req, res) => {
                 throw err;
             } 
 
-            const inject = context.meta.inject()
+            const { title, meta } = context.meta.inject();
 
-            res.render('index', {
-                html: html,
-                meta: inject.meta.text(),
-                title: inject.title.text(),
-                __INITIAL_STATE__: `window.__INITIAL_STATE__ = ${JSON.stringify(context.state)}`
-            });
+            const __INITIAL_STATE__ = `window.__INITIAL_STATE__ = ${JSON.stringify(context.state)}`
+
+            res.render('index', { meta: meta.text(), title: title.text(), html, __INITIAL_STATE__ });
         })
     }).catch((err)=>{
         res.send(err);  
