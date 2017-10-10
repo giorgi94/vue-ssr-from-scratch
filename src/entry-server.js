@@ -2,7 +2,7 @@ import { createApp } from './app';
 
 
 
-module.exports = function resolveApp(context) {
+export default (context) => {
 
     return new Promise((resolve, reject) => {
         const { app, router, store } = createApp();
@@ -30,7 +30,7 @@ module.exports = function resolveApp(context) {
                     context.meta = app.$meta();
                     context.state = store.state;
 
-                    resolve({app, context});
+                    resolve(app);
                 }).catch(reject)
             }
 

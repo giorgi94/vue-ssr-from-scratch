@@ -6,10 +6,12 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node bin/run-server.js",
-    "dev": "NODE_ENV=development node bin/run-server.js",
-    "build": "rm -rf dist && NODE_ENV=production webpack -p",
-    "build:dev": "rm -rf dist && NODE_ENV=development webpack -d"
+    "start": "NODE_ENV=production node server.js",
+    "dev": "NODE_ENV=development node server.js",
+    "build": "rm -rf dist && npm run build:server && npm run build:client",
+    "build:client": "NODE_ENV=production webpack -p --progress --hide-modules",
+    "build:server": "NODE_ENV=production webpack -p --config webpack.server.config.js --progress --hide-modules",
+    "build:dev": "rm -rf dist && NODE_ENV=development webpack -d --progress --hide-modules"
   },
   "dependencies": {
     "axios": "^0.16.2",
