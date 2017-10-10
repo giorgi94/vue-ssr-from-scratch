@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <h1>Vue application</h1>
+        <h1>Vue application, Nice Job</h1>
 
         <p>{{message}}</p>
 
@@ -29,7 +29,7 @@ export default {
     data () {
         return {
             message: 'this is my root page',
-            api: {},
+            api: {clode: "true"},
         }
     },
     components: {

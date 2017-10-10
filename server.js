@@ -28,13 +28,15 @@ if(NODE_ENV === 'development') {
     const webpackConfig = require('./webpack.config');
     const webpackDevMiddleware = require('webpack-dev-middleware');
     const webpackHotMiddleware = require('webpack-hot-middleware');
+
     const compiler = webpack(webpackConfig);
 
     server.use(webpackDevMiddleware(compiler, {
-        publicPath: webpackConfig.output.publicPath
+        serverSideRender: true,
+        publicPath: '/static/'
     }));
 
-    server.use(webpackHotMiddleware(compiler));
+    server.use(webpackHotMiddleware(compiler.compilers.find(compiler => compiler.name === 'client')));
 }
 else {
     server.use('/static', express.static(path.join(ROOT_DIR, 'dist', 'static')));  

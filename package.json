@@ -8,9 +8,7 @@
   "scripts": {
     "start": "NODE_ENV=production node server.js",
     "dev": "NODE_ENV=development node server.js",
-    "build": "rm -rf dist && npm run build:server && npm run build:client",
-    "build:client": "NODE_ENV=production webpack -p --progress --hide-modules",
-    "build:server": "NODE_ENV=production webpack -p --config webpack.server.config.js --progress --hide-modules",
+    "build": "rm -rf dist && NODE_ENV=production webpack -p --progress --hide-modules",
     "build:dev": "rm -rf dist && NODE_ENV=development webpack -d --progress --hide-modules"
   },
   "dependencies": {
@@ -42,9 +40,11 @@
     "postcss-loader": "^2.0.6",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
+    "vue-ssr-webpack-plugin": "^3.0.0",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",
     "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.19.1"
+    "webpack-hot-middleware": "^2.19.1",
+    "webpack-hot-server-middleware": "^0.1.0"
   }
 }
