@@ -1,14 +1,4 @@
-export default {
-    metaInfo: {
-        title: `My Vue Project`,
-    },
-    components: {
-        
-    },
-    methods: {
-        
-    },
-    template: `
+<template>
     <div id="app">
         <router-view></router-view>
 
@@ -23,5 +13,20 @@ export default {
    
         </div>
     </div>
-    `
+</template>
+
+
+<script>
+    
+export default {
+    metaInfo: {
+        title: `My Vue Project`,
+    },
+    components: {
+        
+    },
+    methods: {
+        
+    },
 }
+</script>

@@ -18,6 +18,7 @@ var config = {
         filename: 'js/[name].bundle.js'
     },
     resolve: {
+        extensions: ['.js', '.vue', '.json'],
         alias: {
             'vue$': "vue/dist/vue.esm.js",
             '@src': path.resolve(__dirname, 'src'),

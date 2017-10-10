@@ -1,3 +1,27 @@
+<template>
+    <div>
+
+        <h1>Vue application</h1>
+
+        <p>{{message}}</p>
+
+        <p>test: {{$store.getters.getMsg}}</p>
+
+
+        <router-link to="/">root</router-link>
+        <router-link to="/home">home</router-link>
+
+
+        <button @click="sendRequest()">Send Request</button>
+
+        <div>{{api}}</div>
+
+    </div>
+</template>
+
+
+<script>
+    
 export default {
     asyncData({store, route}) {
         return store.commit('setMsg', 'this is async message')
@@ -25,23 +49,6 @@ export default {
                 this.api = err;
             });
         }
-    },
-    template: `<div>
-
-        <h1>Vue application</h1>
-
-        <p>{{message}}</p>
-
-        <p>test: {{$store.getters.getMsg}}</p>
-
-
-        <router-link to="/">root</router-link>
-        <router-link to="/home">home</router-link>
-
-
-        <button @click="sendRequest()">Send Request</button>
-
-        <div>{{api}}</div>
-
-    </div>`
+    }
 }
+</script>

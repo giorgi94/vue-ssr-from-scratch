@@ -1,3 +1,20 @@
+<template>
+    <div>
+
+        <p>{{message}}</p>
+        <p>User ID: {{user.id}}</p>
+        <p>User name: {{user.name}}</p>
+
+        <router-link to="/">root</router-link>
+        <router-link to="/home">home</router-link>
+
+
+    </div>
+</template>
+
+
+<script>
+    
 export default {
     metaInfo() {
         return {
@@ -34,18 +51,6 @@ export default {
     },
     methods: {
         
-    },
-    template: `
-    <div>
-
-        <p>{{message}}</p>
-        <p>User ID: {{user.id}}</p>
-        <p>User name: {{user.name}}</p>
-
-        <router-link to="/">root</router-link>
-        <router-link to="/home">home</router-link>
-
-
-    </div>
-    `
+    }
 }
+</script>

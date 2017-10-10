@@ -41,7 +41,6 @@ else {
 }
 
 
-// const resolveApp = require('../src/entry-server');
 
 var count = 0
 
@@ -88,24 +87,6 @@ server.get("*", (req, res) => {
     });
 });
 
-/*
-    resolveApp(req).then(({ app, context })=>{
-        renderer.renderToString(app, (err, html) => {
-            if(err) {
-                throw err;
-            } 
-
-            const { title, meta } = context.meta.inject();
-
-            const __INITIAL_STATE__ = `window.__INITIAL_STATE__ = ${JSON.stringify(context.state)}`
-
-            res.render('index', { meta: meta.text(), title: title.text(), html, __INITIAL_STATE__ });
-        })
-    }).catch((err)=>{
-        res.send(err);  
-    })
-});
-*/   
 
 
 

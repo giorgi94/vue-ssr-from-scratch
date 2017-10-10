@@ -13,7 +13,7 @@ export default (context) => {
             const matchedComponents = router.getMatchedComponents()
 
             if (!matchedComponents.length) {
-                reject({ code: 404 });
+                return reject({ code: 404 });
             }
             else {
                 Promise.all(matchedComponents.map(Component => {
@@ -31,10 +31,16 @@ export default (context) => {
                     context.state = store.state;
 
                     resolve(app);
-                }).catch(reject)
+                }).catch((error)=>{
+                    console.log(error)
+                })
             }
 
-        },reject);
+        },(error)=>{
+            console.log(error)
+        });
+    }).catch((error)=>{
+        console.log(error)
     })
 }
 
