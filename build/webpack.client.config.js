@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -68,6 +69,7 @@ var clientConfig = {
         ]
     },
     plugins: [
+        new ProgressBarPlugin(),
         new webpack.DefinePlugin({
             'NODE_ENV': JSON.stringify(NODE_ENV),
             'process.env.NODE_ENV': JSON.stringify(NODE_ENV),

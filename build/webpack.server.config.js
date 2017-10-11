@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const VueSSRPlugin = require('vue-ssr-webpack-plugin');
 
@@ -62,6 +63,7 @@ var serverConfig = {
         ]
     },
     plugins: [
+        new ProgressBarPlugin(),
         new VueSSRPlugin(),
         new webpack.DefinePlugin({
             'NODE_ENV': JSON.stringify(NODE_ENV),
