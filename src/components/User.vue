@@ -36,6 +36,8 @@ export default {
     computed: {
         user: {
             get() {
+                if(this.$store.getters.getUser.id == -1)
+                    this.$store.dispatch('fetchUser', this.$route.params.id)
                 return this.$store.getters.getUser
             }
         }
