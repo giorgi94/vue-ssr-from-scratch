@@ -17,7 +17,7 @@ export default {
     },
     data () {
         return {
-            message: 'this is my home page'
+            message: 'this is my home page. It is great page'
         }
     },
     components: {

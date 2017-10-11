@@ -25,11 +25,12 @@ server.set('views', path.join(DIST_DIR));
 if(NODE_ENV === 'development') {  
 
     const webpack = require('webpack');
-    const webpackConfig = require('./webpack.config');
+    const clientConfig = require('./build/webpack.client.config');
+    const serverConfig = require('./build/webpack.server.config');
     const webpackDevMiddleware = require('webpack-dev-middleware');
     const webpackHotMiddleware = require('webpack-hot-middleware');
 
-    const compiler = webpack(webpackConfig);
+    const compiler = webpack([clientConfig, serverConfig]);
 
     server.use(webpackDevMiddleware(compiler, {
         serverSideRender: true,
