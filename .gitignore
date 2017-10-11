@@ -10,8 +10,6 @@ npm-debug.log
 # Nuxt generate
 dist
 
-# Backpack build
-build
 
 
 .DS_Store
