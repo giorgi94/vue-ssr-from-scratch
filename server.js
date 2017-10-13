@@ -11,8 +11,15 @@ const DIST_DIR = path.join(__dirname, 'dist');
 
 const server = express();
 
-const serverBundle = require('./dist/static/vue-ssr-bundle.json')
-const bundleRenderer = createBundleRenderer(serverBundle);
+// const template = fs.readFileSync('./index.ejs', 'utf-8')
+const serverBundle = require('./dist/static/vue-ssr-server-bundle.json')
+// const clientManifest = require('./dist/static/vue-ssr-client-manifest.json')
+
+
+const bundleRenderer = createBundleRenderer(serverBundle, {
+    // template,
+    // clientManifest
+});
 
 const ejs = require('ejs')
 
@@ -75,6 +82,8 @@ server.get("/api/:id", (req, res) => {
 
 
 server.get("*", (req, res) => {
+
+    // bundleRenderer.renderToStream(req).pipe(res)
 
 
     bundleRenderer.renderToString(req, (err, html) => {

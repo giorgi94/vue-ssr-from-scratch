@@ -1,15 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.base.config.js')
+
+// const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
 
 
-
-var clientConfig = {
+var clientConfig = merge(baseConfig, {
     context: path.join(__dirname,'..'),
     name: 'client',
     target: 'web',
@@ -17,30 +18,8 @@ var clientConfig = {
         vendors: ['babel-polyfill', 'vue', 'vuex', 'vue-router'],
         index: './src/entry-client.js',
     },
-    output: {
-        path: path.join(__dirname,'../dist/static'),
-        publicPath: '/static/',
-        filename: 'js/[name].bundle.js'
-    },
-    resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: {
-            'vue$': "vue/dist/vue.esm.js",
-            '@src': './src',
-            '@assets': './src/assets',
-        },
-    },
     module: {
         rules: [
-            {
-                test: /\.vue$/,
-                use: 'vue-loader',
-            },
-            {
-                test: /\.js$/,
-                use: 'babel-loader',
-                exclude: /node_modules/
-            },
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
@@ -69,12 +48,7 @@ var clientConfig = {
         ]
     },
     plugins: [
-        new ProgressBarPlugin(),
-        new webpack.DefinePlugin({
-            'NODE_ENV': JSON.stringify(NODE_ENV),
-            'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-            'PRODUCTION': JSON.stringify(NODE_ENV!=='development'),
-        }),
+        // new VueSSRClientPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['commons', 'vendors']
         }),
@@ -100,8 +74,7 @@ var clientConfig = {
             hash:true,
         })
     ],
-    devtool: NODE_ENV == 'development' ? 'eval-source-map' : false,
-}
+})
 
 
 

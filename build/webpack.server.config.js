@@ -1,14 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.base.config.js')
 
-const VueSSRPlugin = require('vue-ssr-webpack-plugin');
+
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 
 
-var serverConfig = {
+var serverConfig = merge(baseConfig, {
     context: path.join(__dirname,'..'),
     name: 'server',
     target: 'node',
@@ -16,30 +18,11 @@ var serverConfig = {
         server: './src/entry-server.js',
     },
     output: {
-        path: path.join(__dirname,'../dist/static'),
-        publicPath: '/static/',
-        filename: 'js/[name].bundle.js',
         libraryTarget: 'commonjs2'
     },
-    resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: {
-            'vue$': "vue/dist/vue.esm.js",
-            '@src': './src',
-            '@assets': './src/assets',
-        },
-    },
+    externals: Object.keys(require('../package.json').dependencies),
     module: {
         rules: [
-            {
-                test: /\.vue$/,
-                use: 'vue-loader',
-            },
-            {
-                test: /\.js$/,
-                use: 'babel-loader',
-                exclude: /node_modules/
-            },
             {
                 test: /\.css$/,
                 use: 'css-loader/locals'
@@ -63,26 +46,11 @@ var serverConfig = {
         ]
     },
     plugins: [
-        new ProgressBarPlugin(),
-        new VueSSRPlugin(),
-        new webpack.DefinePlugin({
-            'NODE_ENV': JSON.stringify(NODE_ENV),
-            'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-            'PRODUCTION': JSON.stringify(NODE_ENV!=='development'),
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: NODE_ENV == 'development',
-            compress: {
-                warnings: false
-            }
-        }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        })
-        
+        new VueSSRServerPlugin(),
     ],
-    devtool: NODE_ENV == 'development' ? 'eval-source-map' : false,
-    externals: Object.keys(require('../package.json').dependencies),
-}
+})
+
+
+
 
 module.exports = serverConfig;
