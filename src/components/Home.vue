@@ -16,7 +16,7 @@ export default {
     },
     data () {
         return {
-            message: 'this is my home page. It is great page, IT works'
+            message: 'this is my home page. It is Super'
         }
     },
     components: {

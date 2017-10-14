@@ -9,6 +9,7 @@ const ROOT_DIR = path.join(__dirname);
 const DIST_DIR = path.join(__dirname, 'dist');
 
 
+
 const server = express();
 
 // const template = fs.readFileSync('./index.ejs', 'utf-8')
@@ -25,6 +26,7 @@ const ejs = require('ejs')
 
 server.set('view engine', 'ejs')
 server.set('views', path.join(DIST_DIR));
+
 
 
 
@@ -107,6 +109,8 @@ server.get("*", (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 
+
+
 server.listen(PORT, ()=>{
-    console.log(`listening to port ${PORT} (${NODE_ENV})`);
+    console.log(`\nlistening to port ${PORT} (${NODE_ENV})\n`);
 });
