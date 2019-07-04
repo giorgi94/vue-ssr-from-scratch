@@ -1,17 +1,26 @@
-import { createApp } from './app'
+import 'assets/stylus/main.styl';
+import {
+    createApp
+} from './app';
+
+const {
+    app,
+    router,
+    store
+} = createApp();
+
+global.HOST = `${global.location.protocol}//${global.location.host}`;
 
 
-import './assets'
-
-
-const { app, router, store } = createApp()
-
-
-if (window.__INITIAL_STATE__) {
-    store.replaceState(window.__INITIAL_STATE__)
+if (global.__INITIAL_STATE__) {
+    store.replaceState({
+        ...store.state,
+        ...global.__INITIAL_STATE__
+    });
 }
 
 router.onReady(() => {
-    app.$mount('#app')
-})
+    app.$mount('#app');
 
+    global.app = app;
+});

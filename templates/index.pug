@@ -1,0 +1,32 @@
+doctype html
+html(lang='ka')
+    head
+        meta(http-equiv='content-type', content='text/html; charset=utf-8')
+        meta(name='viewport', content='width=device-width, user-scalable=no, initial-scale=1, height=device-height')
+
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        //- link(rel='icon', type='image/x-icon', href='/static/img/favicon.ico')
+
+        if rendered
+            | !{rendered.renderResourceHints}
+            | !{rendered.meta}
+            | !{rendered.renderStyles}
+            | !{rendered.link}
+            | !{rendered.title}
+        else
+            for css in styles
+                link(rel='stylesheet' href=css type='text/css')
+
+        | !{ado}
+    body
+
+        if rendered
+            | !{rendered.html}
+            | !{rendered.state}
+            | !{rendered.renderScripts}
+        else
+            #app
+
+            for script in scripts
+                script(type='text/javascript', src=script)

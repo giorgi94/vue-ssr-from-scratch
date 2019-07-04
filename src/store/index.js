@@ -1,38 +1,44 @@
 import Vuex from 'vuex';
-import axios from 'axios'
+import axios from 'axios';
 
 export function createStore() {
     return new Vuex.Store({
-        strict: true,
+        strict: false,
         state: {
-            msg: 'empty',
-            user: {id:-1, name:'anonymous'},
+            mydata: null
         },
         getters: {
-            getMsg(state) {
-                return state.msg;
-            },
-            getUser(state) {
-                return state.user;
-            },
+            GetData: (state) => {
+                return state.mydata ? state.mydata.items : [];
+            }
         },
         mutations: {
-            setMsg(state, msg) {
-                state.msg = msg;
-            },
-            setUser(state, user) {
-                state.user = user;
-            },
+            SetData(state, {
+                key,
+                value
+            }) {
+                state[key] = value;
+            }
         },
         actions: {
-            fetchUser(context, id) {
+            GetData(ctx, opts) {
+                const key = opts.key;
+                const url = global.HOST + '/api/data';
 
-                return axios.get(`http://localhost:8080/api/${id}`).then((res)=>{
-                    context.commit('setUser', res.data)
-                }).catch((error)=>{
-                    console.log('error:',error)
-                });
+                console.log(url);
+
+                return axios({
+                    url,
+                    mathod: 'get'
+                }).then(res => {
+                    ctx.commit('SetData', {
+                        key,
+                        value: res.data
+                    });
+                    console.log(res.data);
+                    return res.data;
+                }).catch(err => console.log(err));
             }
         }
-    })
+    });
 }

@@ -1,15 +1,36 @@
-# dependencies
-node_modules
-
-# logs
-npm-debug.log
-
-# Nuxt build
-.nuxt
-
-# Nuxt generate
-dist
-
-
-
+/__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+*.rdb
 .DS_Store
+.python_history
+
+.vscode/
+
+.lhistory
+.bash_history
+uwsgi_logs.txt
+
+cache/
+logs/
+dist/
+locale/
+
+/static/
+/media/
+
+
+env/
+migrations/
+
+node_modules
+npm-debug.log
+bower_components
+package-lock.json
+
+ignore/
+
+assets/fonts/FiraGO/webfonts/*
+
+!FiraGO-Book*

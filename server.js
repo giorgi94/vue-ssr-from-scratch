@@ -1,116 +1,95 @@
-const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const express = require('express');
+const bodyParser = require('body-parser');
 
-const { createBundleRenderer } = require('vue-server-renderer');
+const {
+    ApiRouter
+} = require('./api/router');
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const ROOT_DIR = path.join(__dirname);
-const DIST_DIR = path.join(__dirname, 'dist');
+const {
+    serverRender,
+    renderOptinos
+} = require('./render');
 
 
+const NODE_ENV = process.env.NODE_ENV || 'production';
+const PATH = __dirname;
+
+const HOST = process.env.HOST || '0.0.0.0';
+const PORT = process.env.PORT || 8080;
 
 const server = express();
 
-// const template = fs.readFileSync('./index.ejs', 'utf-8')
-const serverBundle = require('./dist/static/vue-ssr-server-bundle.json')
-// const clientManifest = require('./dist/static/vue-ssr-client-manifest.json')
+server.set('view engine', 'pug');
+server.set('views', path.join(PATH, 'templates'));
 
+server.use(bodyParser.json());
 
-const bundleRenderer = createBundleRenderer(serverBundle, {
-    // template,
-    // clientManifest
-});
+server.use('/media', express.static(path.join(PATH, 'media')));
 
-const ejs = require('ejs')
+const asyncHandler = fn =>
+    function asyncUtilWrap(...args) {
+        const fnReturn = fn(...args);
+        const next = args[args.length - 1];
+        return Promise.resolve(fnReturn).catch(next);
+    };
 
-server.set('view engine', 'ejs')
-server.set('views', path.join(DIST_DIR));
-
-
-
-
-
-if(NODE_ENV === 'development') {  
-
+if (NODE_ENV === 'development') {
     const webpack = require('webpack');
-    const clientConfig = require('./build/webpack.client.config');
-    const serverConfig = require('./build/webpack.server.config');
     const webpackDevMiddleware = require('webpack-dev-middleware');
     const webpackHotMiddleware = require('webpack-hot-middleware');
 
-    const compiler = webpack([clientConfig, serverConfig]);
+    const clientConfig = require('./build/webpack.client');
+    const compiler = webpack(clientConfig);
 
     server.use(webpackDevMiddleware(compiler, {
-        serverSideRender: true,
-        publicPath: '/static/'
+        publicPath: '/'
     }));
 
-    server.use(webpackHotMiddleware(compiler.compilers.find(compiler => compiler.name === 'client')));
+    server.use(webpackHotMiddleware(compiler));
+} else {
+    server.use('/static', express.static(path.join(PATH, 'dist/static')));
 }
-else {
-    server.use('/static', express.static(path.join(ROOT_DIR, 'dist', 'static')));  
-}
 
+server.use('/api', ApiRouter);
 
+server.get('*', asyncHandler(async (req, res) => {
 
-var count = 0
+    const options = {
+        rendered: null,
+    };
 
-server.get("/api", (req, res) => {
+    req.HOST = `${req.protocol}://${req.hostname}:${PORT}`;
 
-    count += 1;
+    if (NODE_ENV === 'development') {
+        const host = `http://${HOST}:${PORT}`;
+        const manifest = await axios.get(
+            `${host}/json/vue-client-manifest.json`).then(r => r.data);
 
-    console.log(`you requested api for ${count} times`)
-    res.json({
-        message: 'this is api'
-    });
-})
+        options.scripts = manifest['initial'].filter(
+            e => /\.js/.test(e)).map(e => `/${e}`);
+        options.styles = manifest['all'].filter(
+            e => /\.css/.test(e)).map(e => `/${e}`);
 
+        res.render('index', options);
+    } else {
+        // req.HOST = `${req.protocol}://${reqhost}`;
 
+        serverRender(req, (err, html) => {
+            if (err) {
+                console.log(err);
+                res.send('Something went wrong');
+            } else {
+                options.rendered = renderOptinos(req, {
+                    html
+                });
+                res.render('index', options);
+            }
+        });
+    }
+}));
 
-const users = [
-    {id:1, name: 'Jule Ferdinand'},
-    {id:2, name: 'Ramon Desch'},
-    {id:3, name: 'Waldo Artman'},
-    {id:4, name: 'Dalene Stang'},
-]
-
-
-server.get("/api/:id", (req, res) => {
-
-    console.log(`you requested ${req.url}`)
-    res.json(users.find((val)=>val.id==req.params.id));
-})
-
-
-server.get("*", (req, res) => {
-
-    // bundleRenderer.renderToStream(req).pipe(res)
-
-
-    bundleRenderer.renderToString(req, (err, html) => {
-        if(err) {
-            throw err;
-        }
-
-        const { title, meta } = req.meta.inject();
-
-        const __INITIAL_STATE__ = `window.__INITIAL_STATE__ = ${JSON.stringify(req.state)}`
-
-        res.render('index', { meta: meta.text(), title: title.text(), html, __INITIAL_STATE__ });
-    });
-});
-
-
-
-
-
-
-
-const PORT = process.env.PORT || 8080;
-
-
-
-server.listen(PORT, ()=>{
-    console.log(`\nlistening to port ${PORT} (${NODE_ENV})\n`);
+server.listen(PORT, HOST, () => {
+    console.log(`\nlistening to port ${HOST}:${PORT} (${NODE_ENV})\n`);
 });
