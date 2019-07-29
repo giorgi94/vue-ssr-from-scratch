@@ -28,6 +28,7 @@ server.use(bodyParser.json());
 
 server.use('/media', express.static(path.join(PATH, 'media')));
 
+
 const asyncHandler = fn =>
     function asyncUtilWrap(...args) {
         const fnReturn = fn(...args);
@@ -51,6 +52,8 @@ if (NODE_ENV === 'development') {
 } else {
     server.use('/static', express.static(path.join(PATH, 'dist/static')));
 }
+
+server.use('/static', express.static(path.join(PATH, 'assets')));
 
 server.use('/api', ApiRouter);
 
