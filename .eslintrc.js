@@ -23,6 +23,7 @@ module.exports = {
         'vue/valid-v-for': 'off',
         'vue/valid-template-root': 'off',
         'vue/require-v-for-key': 'off',
+        'vue/max-attributes-per-line': 'off',
         'vue/return-in-computed-property': [2],
         'vue/no-duplicate-attributes': [2],
         'vue/attribute-hyphenation': [2, 'always'],

@@ -6,6 +6,9 @@
             alt=""
         >
         <router-view />
+        <template v-if="mounted">
+            <component :is="'Gallery'" />
+        </template>
     </div>
 </template>
 
@@ -14,8 +17,12 @@
 export default {
     data () {
         return {
-            title: 'This is vue site'
+            title: 'This is vue site',
+            mounted: false
         };
+    },
+    beforeMount () {
+        this.mounted = true;
     }
 };
 </script>
